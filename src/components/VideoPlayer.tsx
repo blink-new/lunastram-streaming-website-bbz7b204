@@ -26,6 +26,32 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({ tmdbId, type, onClose 
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (details) {
+      const trackViewing = () => {
+        const userId = `anonymous_${Math.random().toString(36).substr(2, 9)}`;
+        const title = 'title' in details ? details.title : details.name;
+        
+        // In a real implementation, this would send tracking data to the server
+        console.log('Tracking view:', {
+          userId,
+          tmdbId,
+          title,
+          type,
+          season: type === 'tv' ? currentSeason : undefined,
+          episode: type === 'tv' ? currentEpisode : undefined,
+          timestamp: new Date().toISOString(),
+        });
+      };
+
+      trackViewing();
+      
+      // Track every 30 seconds while playing
+      const interval = setInterval(trackViewing, 30000);
+      return () => clearInterval(interval);
+    }
+  }, [details, tmdbId, type, currentSeason, currentEpisode]);
+
+  useEffect(() => {
     const fetchDetails = async () => {
       try {
         setLoading(true);
@@ -179,6 +205,8 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({ tmdbId, type, onClose 
               className="w-full h-full player-iframe"
               allowFullScreen
               title={`${title} Player`}
+              sandbox="allow-scripts allow-same-origin allow-presentation allow-forms"
+              referrerPolicy="no-referrer"
             />
           </div>
 

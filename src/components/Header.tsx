@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Search, Menu, X, Film, Tv, TrendingUp, Star } from 'lucide-react';
+import { Search, Menu, X, Film, Tv, TrendingUp, Star, Shield } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
+import { ThemeToggle } from './ThemeToggle';
 
 interface HeaderProps {
   onSearch: (query: string) => void;
@@ -37,7 +38,7 @@ export const Header: React.FC<HeaderProps> = ({ onSearch, currentView, onViewCha
               <Star className="w-6 h-6 text-primary-foreground" />
             </div>
             <div className="flex flex-col">
-              <h1 className="text-xl font-bold gradient-text">LunaStram</h1>
+              <h1 className="text-xl font-bold gradient-text">LunaStream</h1>
               <p className="text-xs text-muted-foreground">Premium Streaming</p>
             </div>
           </div>
@@ -61,32 +62,49 @@ export const Header: React.FC<HeaderProps> = ({ onSearch, currentView, onViewCha
             })}
           </nav>
 
-          {/* Search Bar */}
-          <form onSubmit={handleSearch} className="hidden md:flex items-center space-x-2">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-              <Input
-                type="text"
-                placeholder="Search movies, TV shows..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 w-64"
-              />
-            </div>
-            <Button type="submit" size="sm" className="bg-primary hover:bg-primary/90">
-              Search
-            </Button>
-          </form>
+          {/* Search Bar & Actions */}
+          <div className="flex items-center space-x-2">
+            {/* Search Bar */}
+            <form onSubmit={handleSearch} className="hidden md:flex items-center space-x-2">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                <Input
+                  type="text"
+                  placeholder="Search movies, TV shows..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10 w-64"
+                />
+              </div>
+              <Button type="submit" size="sm" className="bg-primary hover:bg-primary/90">
+                Search
+              </Button>
+            </form>
 
-          {/* Mobile Menu Button */}
-          <Button
-            variant="ghost"
-            size="sm"
-            className="md:hidden"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-          </Button>
+            {/* Theme Toggle */}
+            <ThemeToggle />
+
+            {/* Admin Link */}
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => window.open('/admin', '_blank')}
+              className="hidden md:flex items-center space-x-2"
+            >
+              <Shield className="w-4 h-4" />
+              <span>Admin</span>
+            </Button>
+
+            {/* Mobile Menu Button */}
+            <Button
+              variant="ghost"
+              size="sm"
+              className="md:hidden"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </Button>
+          </div>
         </div>
 
         {/* Mobile Menu */}

@@ -202,7 +202,7 @@ function App() {
               <div className="flex items-center space-x-2 mb-4">
                 <Sparkles className="w-6 h-6 text-primary animate-pulse" />
                 <Badge variant="secondary" className="bg-primary/20 text-primary-foreground">
-                  Welcome to LunaStram
+                  Welcome to LunaStream
                 </Badge>
               </div>
               <h1 className="text-4xl md:text-6xl font-bold gradient-text mb-6 leading-tight">
